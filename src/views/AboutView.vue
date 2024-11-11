@@ -1,33 +1,32 @@
+
 <script setup>
-import { ref, reactive } from 'vue';
+import { reactive } from 'vue';
 
-defineProps({
-  
-})
 
+const historyTiket = localStorage.getItem('newChaild') ? JSON.parse(localStorage.getItem('newChaild')) : [];
 
 const Parent = reactive({
-  name: '',
-  age: '',
-  childtern: [],
+  name: historyTiket.length ? historyTiket[0].name : '',
+  age: historyTiket.length ? historyTiket[0].age : '',
+  childtern: historyTiket.length ? historyTiket[0].childtern : []
 });
+
 </script>
 
 <template>
   <div class="Preview">
-    <div>
+    <div class="flex flex-col gap-[20px] mt-[30px]">
       <h3>Персональные данные</h3>
-      <h2>Имя: {{Parent.name}}</h2><h2>Возраст: {{Parent.age}}</h2>
+      <h2 class="font-bold">{{Parent.name}}, {{Parent.age}}</h2>
     </div>
     
-    <div>
+    <div class="mt-[60px] flex flex-col gap-[20px]">
       <h3>Дети</h3>
-      <ul>
-        <li v-for="child in Parent.childtern" :key="child.age">
-          <h2>Имя: {{child.name}}</h2><h2>Возраст: {{child.age}}</h2>
+      <ul class="flex flex-col gap-[20px]">
+        <li v-for="child in Parent.childtern" :key="child.age" >
+          <h2 class="px-[20px] py-[10px] bg-[#F2F2F2] rounded max-w-fit font-bold">{{child.name}}, {{child.age}}</h2>
         </li>
       </ul>
     </div>
   </div>
 </template>
-
