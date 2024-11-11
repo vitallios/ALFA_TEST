@@ -16,5 +16,13 @@
 ul>li>a {
  color: var(--lightBlack);
 }
+
+@media (max-width: 550px) {
+ nav>a{
+  left: 0;
+  position: relative;
+  width: 100%;
+ }
+}
 </style>>
 

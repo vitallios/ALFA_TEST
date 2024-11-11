@@ -14,4 +14,10 @@ import TheFooter from './components/TheFooter.vue'
 </template>
 
 
-
+<style>
+@media  (max-width: 550px)  {
+  .container{
+    padding: 0 10px;
+  }
+}
+</style>

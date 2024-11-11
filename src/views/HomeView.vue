@@ -1,5 +1,5 @@
-
 <script setup>
+import router from '@/router';
 import { ref, reactive } from 'vue';
 
 const newChaild = ref([]);
@@ -24,7 +24,7 @@ const saveTiket = () => {
   }
   newChaild.value.push({ ...Parent });
   localStorage.setItem('newChaild', JSON.stringify(newChaild.value));
-  console.log(newChaild.value);
+  router.push('/about');
 };
 
 const createNewChild = () => {
@@ -33,7 +33,6 @@ const createNewChild = () => {
     alert('Максимальное количество детей - 5');
     return;
   }
-
   const childrenItem = document.createElement('li');
   childrenItem.classList.add('childrenItem', 'flex', 'gap-[18px]');
 
@@ -45,6 +44,7 @@ const createNewChild = () => {
 
   const inputName = document.createElement('input');
   inputName.type = 'text';
+  inputName.attributes.required = true;
   inputName.name = 'childName';
   inputName.classList.add('w-full', 'border-none', 'outline-none');
 
@@ -56,6 +56,7 @@ const createNewChild = () => {
 
   const inputAge = document.createElement('input');
   inputAge.type = 'text';
+  inputAge.attributes.required = true;
   inputAge.name = 'childAge';
   inputAge.classList.add('w-full', 'border-none', 'outline-none');
 
@@ -67,26 +68,22 @@ const createNewChild = () => {
   childrenDivInputLabelAge.append(childrenLabelAge, inputAge);
   childrenItem.append(childrenDivInputLabelName, childrenDivInputLabelAge, removeBtn);
   childrenList.appendChild(childrenItem);
-
   removeBtn.addEventListener('click', () => childrenItem.remove());
 };
-
-
-
 </script>
 
 
 <template>
-  <main class="pt-[30px]">
+  <main class="pt-[30px] pb-[7em]">
     <div class="parentName flex flex-col gap-[10px]">
       <h1>Персональные данные</h1>
       <div class="pt-[22px]">
         <label for="parentNameLabel">Имя</label>
-        <input v-model="Parent.name" class="w-full border-none outline-none" type="text" id="parentNameLabel">
+        <input v-model="Parent.name" required class="w-full border-none outline-none" type="text" id="parentNameLabel">
       </div>
       <div>
         <label for="parentAgeLabel">Возраст</label>
-        <input v-model="Parent.age" class="w-full border-none outline-none" type="text" id="parentAgeLabel">
+        <input v-model="Parent.age" required class="w-full border-none outline-none" type="text" id="parentAgeLabel">
       </div>
     </div>
 
@@ -94,7 +91,7 @@ const createNewChild = () => {
       <div class="flex flex-row items-center mt-[44px]">
         <div class="flex justify-between items-center w-full relative">
           <h4>Дети (макс. 5)</h4>
-          <button @click="createNewChild"
+          <button @click="createNewChild" id="addChildBtn"
             class="btn absolute right-0 flex justify-between items-center px-[20px] py-[10px] border-[#01A7FD] border-[1px] rounded-[100px] outline-none">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -108,9 +105,7 @@ const createNewChild = () => {
         </div>
       </div>
       <ul id="ChildrenList" class="pt-[22px] flex flex-col gap-[10px]"></ul>
-      <button 
-      @click="saveTiket"
-      
+      <button @click="saveTiket"
         class="mt-[30px] py-[10px] px-[20px] border-[#01A7FD] border-[1px] rounded-[100px] bg-[#01A7FD] text-white text-[14px]">Сохранить</button>
     </div>
   </main>
@@ -144,5 +139,18 @@ const createNewChild = () => {
   color: var(--lightBlack);
   z-index: 10;
 }
-</style>
 
+@media (max-width: 550px){
+  #addChildBtn{
+    padding: 0.5em 0.7em;
+  }
+  .childrenItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .childrenItem>div {
+    width: 100%;
+  }
+
+}
+</style>
