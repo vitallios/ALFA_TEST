@@ -1,6 +1,9 @@
 <script setup>
 import router from '@/router';
 import { ref, reactive } from 'vue';
+defineProps(['titlePages', 'childrenCol', 'AGE', 'NAME', 'addChildrenItem', 'textSAVE']);
+const emit = defineEmits(['CREATE_NEW_CHILD', '']);
+
 
 const newChaild = ref([]);
 const Parent = reactive({
@@ -8,9 +11,6 @@ const Parent = reactive({
   age: '',
   childtern: [],
 });
-
-
-
 const saveTiket = () => {
   const childrenList = document.getElementById('ChildrenList');
   const children = childrenList.children;
@@ -27,62 +27,20 @@ const saveTiket = () => {
   router.push('/about');
 };
 
-const createNewChild = () => {
-  const childrenList = document.getElementById('ChildrenList');
-  if (childrenList.children.length >= 5) {
-    alert('Максимальное количество детей - 5');
-    return;
-  }
-  const childrenItem = document.createElement('li');
-  childrenItem.classList.add('childrenItem', 'flex', 'gap-[18px]');
-
-  const childrenDivInputLabelName = document.createElement('div');
-  childrenDivInputLabelName.classList.add('childrenInput');
-
-  const childrenLabelName = document.createElement('label');
-  childrenLabelName.textContent = 'Имя';
-
-  const inputName = document.createElement('input');
-  inputName.type = 'text';
-  inputName.attributes.required = true;
-  inputName.name = 'childName';
-  inputName.classList.add('w-full', 'border-none', 'outline-none');
-
-  const childrenDivInputLabelAge = document.createElement('div');
-  childrenDivInputLabelAge.classList.add('childrenInput');
-
-  const childrenLabelAge = document.createElement('label');
-  childrenLabelAge.textContent = 'Возраст';
-
-  const inputAge = document.createElement('input');
-  inputAge.type = 'text';
-  inputAge.attributes.required = true;
-  inputAge.name = 'childAge';
-  inputAge.classList.add('w-full', 'border-none', 'outline-none');
-
-  const removeBtn = document.createElement('button');
-  removeBtn.classList.add('btn', 'removeBtn', 'text-[#01A7FD]');
-  removeBtn.textContent = 'Удалить';
-
-  childrenDivInputLabelName.append(childrenLabelName, inputName);
-  childrenDivInputLabelAge.append(childrenLabelAge, inputAge);
-  childrenItem.append(childrenDivInputLabelName, childrenDivInputLabelAge, removeBtn);
-  childrenList.appendChild(childrenItem);
-  removeBtn.addEventListener('click', () => childrenItem.remove());
-};
 </script>
 
 
 <template>
   <main class="pt-[30px] pb-[7em]">
     <div class="parentName flex flex-col gap-[10px]">
-      <h1>Персональные данные</h1>
+
+      <h3>{{ titlePages }}</h3>
       <div class="pt-[22px]">
-        <label for="parentNameLabel">Имя</label>
+        <label for="parentNameLabel">{{NAME}}</label>
         <input v-model="Parent.name" required class="w-full border-none outline-none" type="text" id="parentNameLabel">
       </div>
       <div>
-        <label for="parentAgeLabel">Возраст</label>
+        <label for="parentAgeLabel">{{AGE}}</label>
         <input v-model="Parent.age" required class="w-full border-none outline-none" type="text" id="parentAgeLabel">
       </div>
     </div>
@@ -90,8 +48,8 @@ const createNewChild = () => {
     <div>
       <div class="flex flex-row items-center mt-[44px]">
         <div class="flex justify-between items-center w-full relative">
-          <h4>Дети (макс. 5)</h4>
-          <button @click="createNewChild" id="addChildBtn"
+          <h3>{{ childrenCol }}</h3>
+          <button @click="emit('CREATE_NEW_CHILD')" id="addChildBtn"
             class="btn absolute right-0 flex justify-between items-center px-[20px] py-[10px] border-[#01A7FD] border-[1px] rounded-[100px] outline-none">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -99,14 +57,16 @@ const createNewChild = () => {
                 fill="#01A7FD" />
             </svg>
             <span class="ml-[10px] text-[#01A7FD]">
-              Добавить ребенка
+              {{ addChildrenItem }}
             </span>
           </button>
         </div>
       </div>
       <ul id="ChildrenList" class="pt-[22px] flex flex-col gap-[10px]"></ul>
       <button @click="saveTiket"
-        class="mt-[30px] py-[10px] px-[20px] border-[#01A7FD] border-[1px] rounded-[100px] bg-[#01A7FD] text-white text-[14px]">Сохранить</button>
+        class="mt-[30px] py-[10px] px-[20px] border-[#01A7FD] border-[1px] rounded-[100px] bg-[#01A7FD] text-white text-[14px]">
+        {{ textSAVE }}
+      </button>
     </div>
   </main>
 </template>

@@ -19,7 +19,8 @@ body {
 .HeaderShadow{
   box-shadow: 0px 1px 0px 0px rgba(17, 17, 17, 10%);
 }
-h1{
- font-size: 24px;
+h3{
+ font-size: 16px;
+ font-weight: 500;
 }
 
